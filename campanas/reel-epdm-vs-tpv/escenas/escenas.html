@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Escenas · Reel EPDM vs TPV · MAMKAM</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#000;width:720px;height:1280px;overflow:hidden;font-family:"Helvetica Neue",Arial,sans-serif;color:#fff}
+  #stage{position:relative;width:720px;height:1280px;background:#000;overflow:hidden}
+  .scene{position:absolute;inset:0;display:none}
+  .abs{position:absolute}
+  .txt{position:absolute;left:50px;right:50px;text-align:center;font-weight:800;line-height:1.15;opacity:0}
+  .cap{font-size:44px}
+  .sub{font-size:28px;font-weight:500;color:#d6d6e0;line-height:1.35}
+  .note{position:absolute;left:0;right:0;bottom:44px;text-align:center;font-size:20px;color:#8c8c9c;letter-spacing:.5px}
+  .gran{position:absolute;border-radius:50%;opacity:0}
+  .sq{position:absolute;width:300px;height:300px;border-radius:18px;opacity:0;background:
+      radial-gradient(circle at 30% 30%,#2a2a2e 0 3px,transparent 4px) 0 0/22px 22px,
+      #111;box-shadow:0 0 0 2px #333 inset}
+  .band{position:absolute;left:0;right:0;height:60px}
+  .label{position:absolute;font-weight:800;font-size:34px;opacity:0}
+  .sun{position:absolute;left:260px;top:260px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,#ffd60a,#ff9f1c);opacity:0}
+  .ray{position:absolute;left:358px;top:360px;width:6px;height:150px;background:#ffd60a;transform-origin:50% 0;opacity:0}
+  .drop{position:absolute;width:4px;height:26px;background:#6ec6ff;border-radius:3px;opacity:0}
+  .panel{position:absolute;top:300px;width:300px;height:420px;border-radius:20px;overflow:hidden;background:#0c0c12;box-shadow:0 0 0 2px #2a2a38 inset;opacity:0}
+  .photo{position:absolute;inset:0;background:url(img/obra-plaza.jpg) center/cover no-repeat;opacity:0;transform-origin:50% 50%}
+  .logo{position:absolute;left:50%;top:360px;transform:translateX(-50%);width:600px;opacity:0}
+  .flag{position:absolute;top:30px;left:30px;font-size:18px;letter-spacing:1px;color:#ffd60a;opacity:0}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ESCENA 1 · 0–3 s · Gancho -->
+  <section class="scene" id="s1">
+    <div class="sq" id="sqA" style="left:70px;top:330px"></div>
+    <div class="sq" id="sqB" style="left:350px;top:330px"></div>
+    <div class="txt cap" id="s1t" style="top:110px">Se ven iguales.<br>¿Lo son?</div>
+    <div class="txt sub" id="s1s" style="top:720px">Dos pisos recién instalados.</div>
+  </section>
+
+  <!-- ESCENA 2 · 3–9 s · Problema -->
+  <section class="scene" id="s2">
+    <div class="sun" id="sun"></div>
+    <div class="ray" id="r1" style="transform:rotate(0deg)"></div>
+    <div class="ray" id="r2" style="transform:rotate(45deg)"></div>
+    <div class="ray" id="r3" style="transform:rotate(90deg)"></div>
+    <div class="ray" id="r4" style="transform:rotate(135deg)"></div>
+    <div class="ray" id="r5" style="transform:rotate(180deg)"></div>
+    <div class="ray" id="r6" style="transform:rotate(225deg)"></div>
+    <div class="ray" id="r7" style="transform:rotate(270deg)"></div>
+    <div class="ray" id="r8" style="transform:rotate(315deg)"></div>
+    <div class="sq" id="s2A" style="left:70px;top:700px;width:260px;height:260px"></div>
+    <div class="sq" id="s2B" style="left:390px;top:700px;width:260px;height:260px"></div>
+    <div class="abs" id="fadeB" style="left:390px;top:700px;width:260px;height:260px;border-radius:18px;background:#8a8a8a;opacity:0"></div>
+    <div id="drops"></div>
+    <div class="txt cap" id="s2t" style="top:110px;font-size:46px">Sol, lluvia<br>y uso diario.</div>
+    <div class="txt sub" id="s2s" style="top:1000px">No todos mantienen el color igual.</div>
+  </section>
+
+  <!-- ESCENA 3 · 9–20 s · Explicación ilustrativa -->
+  <section class="scene" id="s3">
+    <div class="txt cap" id="s3t" style="top:70px;font-size:50px">EPDM · TPV</div>
+    <div class="panel" id="pE" style="left:40px"></div>
+    <div class="panel" id="pT" style="left:380px"></div>
+    <div class="label" id="lE" style="left:40px;width:300px;top:740px;text-align:center;color:#ff3b5c">EPDM</div>
+    <div class="label" id="lT" style="left:380px;width:300px;top:740px;text-align:center;color:#6ec6ff">TPV</div>
+    <div class="txt sub" id="s3s" style="top:850px;font-size:26px">Caucho sintético vs compuesto termoplástico</div>
+    <div class="note" id="s3n">Ilustrativo · color y UV pendientes de ficha técnica</div>
+  </section>
+
+  <!-- ESCENA 4 · 20–32 s · Prueba real -->
+  <section class="scene" id="s4">
+    <div class="abs" id="photo" style="inset:0;background:url(img/obra-plaza.jpg) center/cover no-repeat;opacity:0"></div>
+    <div class="abs" style="left:0;right:0;bottom:0;height:320px;background:linear-gradient(transparent,#000 85%)"></div>
+    <div class="txt cap" id="s4t" style="top:960px;font-size:46px">Instalado<br>por MAMKAM</div>
+  </section>
+
+  <!-- ESCENA 5 · 32–38 s · Decisión -->
+  <section class="scene" id="s5">
+    <div class="txt cap" id="s5t" style="top:430px;font-size:52px">¿Qué caucho<br>necesita tu proyecto?</div>
+    <div class="txt sub" id="s5s" style="top:720px">Cotiza con nosotros.</div>
+  </section>
+
+  <!-- ESCENA 6 · 38–40 s · Cierre -->
+  <section class="scene" id="s6">
+    <img class="logo" id="logo" src="img/logo-mamkam.jpg" alt="MAMKAM">
+    <div class="txt sub" id="s6t" style="top:820px;font-size:34px;font-weight:700;color:#fff">+56 9 4818 2630</div>
+  </section>
+
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const clamp = x => Math.max(0, Math.min(1, x));
+  const ease = x => 1 - Math.pow(1 - clamp(x), 3);
+  const set = (el, props) => { if(el) Object.assign(el.style, props); };
+  const show = (id, on) => { const el=$(id); if(el) el.style.display = on ? 'block' : 'none'; };
+
+  // Gotas de lluvia en escena 2 (posiciones fijas y deterministas)
+  const drops = $('drops');
+  for(let i=0;i<22;i++){
+    const d=document.createElement('div'); d.className='drop';
+    d.dataset.x = (40 + (i*137)%640); d.dataset.o = (i*0.27)%1;
+    drops.appendChild(d);
+  }
+  // Gránulos deterministas para escena 3
+  const granules = [];
+  let seed = 7; const rnd = () => (seed = (seed*9301+49297)%233280)/233280;
+  for(let i=0;i<180;i++){
+    const g=document.createElement('div'); g.className='gran';
+    const s=10+rnd()*10; g.style.width=g.style.height=s+'px';
+    g.dataset.x=rnd(); g.dataset.y=rnd();
+    g.dataset.p = i%2;   // panel: EPDM (0) o TPV (1), mismo número de gránulos
+    g.dataset.c = i%3;   // color igual en ambos paneles (no implica diferencia de material)
+    granules.push(g); $('s3').appendChild(g);
+  }
+
+  function render(t){
+    // Mostrar sólo la escena activa
+    const active = t<3?'s1':t<9?'s2':t<20?'s3':t<32?'s4':t<38?'s5':'s6';
+    ['s1','s2','s3','s4','s5','s6'].forEach(id => $(id).style.display = (id===active)?'block':'none');
+
+    // ESCENA 1
+    if(active==='s1'){
+      set($('sqA'),{opacity:ease((t-0.2)/0.5)});
+      set($('sqB'),{opacity:ease((t-0.4)/0.5)});
+      set($('s1t'),{opacity:ease((t-0.8)/0.5)});
+      set($('s1s'),{opacity:ease((t-1.5)/0.5)});
+    }
+
+    // ESCENA 2
+    if(active==='s2'){
+      const u=t-3;
+      set($('sun'),{opacity:ease(u/0.6), transform:`scale(${0.6+0.4*ease(u/0.8)})`});
+      for(let i=1;i<=8;i++){ set($('r'+i),{opacity:ease(u/0.6)*0.8, height:(120+ 30*Math.sin(u*2+i))+'px'}); }
+      set($('s2A'),{opacity:ease(u/0.5)});
+      set($('s2B'),{opacity:ease(u/0.5)});
+      set($('fadeB'),{opacity:clamp((u-1.5)/4)*0.75});
+      document.querySelectorAll('#drops .drop').forEach(d=>{
+        const x=+d.dataset.x, o=+d.dataset.o;
+        const p=((u*0.9)+o)%1;
+        set(d,{left:x+'px', top:(640+p*600)+'px', opacity:(u>1.2?0.8:0)});
+      });
+      set($('s2t'),{opacity:ease((u-0.2)/0.5)});
+      set($('s2s'),{opacity:ease((u-2.5)/0.6)});
+    }
+
+    // ESCENA 3
+    if(active==='s3'){
+      const u=t-9;
+      const pE=$('pE'), pT=$('pT');
+      set(pE,{opacity:ease(u/0.5), transform:`translateY(${(1-ease(u/0.5))*40}px)`});
+      set(pT,{opacity:ease((u-0.3)/0.5), transform:`translateY(${(1-ease((u-0.3)/0.5))*40}px)`});
+      granules.forEach(g=>{
+        const panel = (g.dataset.p==='0')? pE : pT;
+        const panelLeft = (panel===pE)?40:380;
+        const x = panelLeft + 20 + (+g.dataset.x)*260;
+        const y = 330 + (+g.dataset.y)*270;
+        const col = (+g.dataset.c===0)?'#ff3b5c':(+g.dataset.c===1)?'#ffd60a':'#6ec6ff';
+        set(g,{left:x+'px', top:y+'px', background:col, opacity:ease((u-0.6-(+g.dataset.y))/0.4)});
+      });
+      set($('lE'),{opacity:ease((u-1.5)/0.5)});
+      set($('lT'),{opacity:ease((u-2.0)/0.5)});
+      set($('s3t'),{opacity:ease((u-0.0)/0.5)});
+      set($('s3s'),{opacity:ease((u-3.0)/0.6)});
+      set($('s3n'),{opacity:ease((u-3.5)/0.6)});
+    }
+
+    // ESCENA 4
+    if(active==='s4'){
+      const u=t-20;
+      set($('photo'),{opacity:ease(u/0.5), transform:`scale(${1+0.06*(u/12)})`});
+      set($('s4t'),{opacity:ease((u-1.0)/0.6)});
+    }
+
+    // ESCENA 5
+    if(active==='s5'){
+      const u=t-32;
+      set($('s5t'),{opacity:ease(u/0.5)});
+      set($('s5s'),{opacity:ease((u-1.2)/0.5)});
+    }
+
+    // ESCENA 6
+    if(active==='s6'){
+      const u=t-38;
+      set($('logo'),{opacity:ease(u/0.6)});
+      set($('s6t'),{opacity:ease((u-0.8)/0.5)});
+    }
+  }
+  window.render = render;
+  render(0);
+</script>
+</body>
+</html>

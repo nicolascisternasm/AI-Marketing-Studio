@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prediseño · Reel EPDM vs TPV · MAMKAM</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0b0b0f;color:#f2f2f5;padding:24px}
+  .aviso{max-width:1080px;margin:0 auto 18px;padding:12px 16px;border:1px solid #3b3b48;border-radius:10px;background:#15151d;color:#b9b9c6;font-size:14px}
+  .aviso b{color:#ffd60a}
+  header{max-width:1080px;margin:0 auto 20px}
+  h1{font-size:22px;letter-spacing:.5px}
+  h1 span{color:#ff3b5c}
+  .sub{color:#9a9aab;font-size:14px;margin-top:4px}
+  main{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:340px 1fr;gap:24px}
+  .phone{position:relative;width:100%;aspect-ratio:9/16;background:#000;border-radius:22px;border:1px solid #2a2a36;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:28px;opacity:0;transition:opacity .4s}
+  .scene.on{opacity:1}
+  .big{font-size:26px;font-weight:800;line-height:1.2}
+  .small{font-size:14px;color:#c8c8d4;margin-top:12px;line-height:1.5}
+  .tag{position:absolute;top:12px;left:12px;font-size:11px;background:rgba(255,255,255,.12);padding:4px 8px;border-radius:6px;color:#ddd}
+  .s1{background:radial-gradient(circle at 30% 40%,#e63946,#000 60%)}
+  .s2{background:linear-gradient(160deg,#ffb703,#000 70%)}
+  .s3{background:linear-gradient(160deg,#1d4ed8,#14532d 60%,#000)}
+  .s4{background:linear-gradient(160deg,#222,#111)}
+  .s5{background:linear-gradient(160deg,#7b2cbf,#000)}
+  .s6{background:radial-gradient(circle at 25% 50%,#2a9d8f,#000 65%)}
+  .blocks{display:flex;gap:10px;justify-content:center;margin-top:18px}
+  .sw{width:70px;height:70px;border-radius:12px;border:2px solid #fff3}
+  .sw.a{background:#ccc}.sw.b{background:#ccc}
+  .sw.b{background:repeating-linear-gradient(45deg,#8a8a8a 0 6px,#6c6c6c 6px 12px)}
+  .bar{position:absolute;bottom:0;left:0;height:4px;background:#ff3b5c;width:0;animation:prog 40s linear infinite}
+  @keyframes prog{to{width:100%}}
+  .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  button{background:#1d1d28;color:#f2f2f5;border:1px solid #3a3a4c;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px}
+  button:hover{border-color:#ff3b5c}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #26263a;vertical-align:top}
+  th{color:#9a9aab;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  tr.active td{background:#17172a}
+  .t{white-space:nowrap;color:#ffd60a;font-weight:700}
+  .verif{color:#ffd60a;font-weight:700}
+  .checks{margin-top:18px;background:#15151d;border:1px solid #2a2a36;border-radius:12px;padding:16px}
+  .checks h2{font-size:15px;margin-bottom:8px}
+  .checks li{margin:6px 0 6px 18px;color:#c8c8d4;font-size:13px}
+  @media(max-width:820px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="aviso">
+  <b>PREDISEÑO — no es el video final.</b> Previsualización para aprobar el guion y el ritmo. No ejecuta herramientas, no genera video y no gasta créditos. Los datos marcados <span class="verif">[VERIFICAR]</span> esperan la ficha técnica del proveedor.
+</div>
+
+<header>
+  <h1>Reel explicativo · <span>EPDM vs TPV</span></h1>
+  <div class="sub">MAMKAM · Caucho continuo · 9:16 · 40 s · Locución en español chileno · Sin oferta esta semana</div>
+</header>
+
+<main>
+  <section>
+    <div class="phone" id="phone">
+      <div class="scene s1 on" data-t="0"><span class="tag">1 · 0–3 s</span><div class="big">Se ven iguales.<br>¿Lo son?</div><div class="small">Dos pisos recién instalados.</div><div class="blocks"><div class="sw a"></div><div class="sw a"></div></div></div>
+      <div class="scene s2" data-t="3"><span class="tag">2 · 3–9 s</span><div class="big">Sol, lluvia<br>y uso diario.</div><div class="small">No todos mantienen el color igual.</div></div>
+      <div class="scene s3" data-t="9"><span class="tag">3 · 9–20 s · Ilustrativo</span><div class="big">EPDM · TPV</div><div class="small">Caucho sintético vs compuesto termoplástico.<br><span class="verif">[VERIFICAR] color y UV según ficha</span></div></div>
+      <div class="scene s4" data-t="20"><span class="tag">4 · 20–32 s · Real</span><div class="big">Instalado<br>por MAMKAM</div><div class="small">Foto o video real de obra (plaza o colegio)</div></div>
+      <div class="scene s5" data-t="32"><span class="tag">5 · 32–38 s</span><div class="big">¿Qué caucho<br>necesita tu proyecto?</div><div class="small">Cotiza con nosotros.</div></div>
+      <div class="scene s6" data-t="38"><span class="tag">6 · 38–40 s</span><div class="big">MAMKAM</div><div class="small">+56 9 4818 2630</div></div>
+      <div class="bar" id="bar"></div>
+    </div>
+    <div class="controls">
+      <button id="play">▶ Reproducir previsualización</button>
+      <button id="reset">↺ Reiniciar</button>
+    </div>
+  </section>
+
+  <section>
+    <table>
+      <thead><tr><th>Tiempo</th><th>Escena</th><th>Locución (guion)</th></tr></thead>
+      <tbody>
+        <tr data-i="0"><td class="t">0–3 s</td><td>1. Gancho<br><small>Dos muestras lado a lado, pregunta en pantalla.</small></td><td>"Dos pisos recién instalados se ven idénticos."</td></tr>
+        <tr data-i="1"><td class="t">3–9 s</td><td>2. Problema<br><small>Sol, lluvia y uso diario.</small></td><td>"Pero con el sol y el tiempo, no todos mantienen el color igual."</td></tr>
+        <tr data-i="2"><td class="t">9–20 s</td><td>3. Explicación<br><small>Corte ilustrativo del EPDM y el TPV.</small></td><td>"El EPDM es un caucho sintético resistente al sol. El TPV es un compuesto termoplástico que, según su ficha técnica, conserva mejor el color. <span class="verif">[VERIFICAR]</span>"</td></tr>
+        <tr data-i="3"><td class="t">20–32 s</td><td>4. Prueba<br><small>Tomas reales de MAMKAM.</small></td><td>"Nosotros instalamos ambos, y te ayudamos a elegir según tu proyecto y tu clima."</td></tr>
+        <tr data-i="4"><td class="t">32–38 s</td><td>5. Decisión<br><small>Pregunta y llamado a cotizar.</small></td><td>"Si estás pensando en caucho continuo para tu plaza o colegio, cotiza con nosotros."</td></tr>
+        <tr data-i="5"><td class="t">38–40 s</td><td>6. Cierre<br><small>Logo y teléfono.</small></td><td>"MAMKAM. Cotiza gratis hoy."</td></tr>
+      </tbody>
+    </table>
+
+    <div class="checks">
+      <h2>Criterios de aceptación</h2>
+      <ul>
+        <li>Producto fiel al real: tomas de producto de MAMKAM.</li>
+        <li>Mensaje claro en los primeros 3 segundos.</li>
+        <li>Ningún dato técnico sin verificar. Color, UV y duración van con su ficha.</li>
+        <li>Sin comparaciones con competidores. Sin niños identificables.</li>
+        <li>Locución natural en español chileno. Subtítulos legibles en 9:16.</li>
+        <li>Teléfono correcto: +56 9 4818 2630. Sin oferta esta semana.</li>
+        <li>Aprobado por Nicolás antes de programar en Metricool.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<script>
+  const scenes = [...document.querySelectorAll('.scene')];
+  const rows = [...document.querySelectorAll('tbody tr')];
+  const bar = document.getElementById('bar');
+  let timers = [];
+  const starts = [0,3,9,20,32,38];
+  function show(i){
+    scenes.forEach((s,j)=>s.classList.toggle('on', j===i));
+    rows.forEach((r,j)=>r.classList.toggle('active', j===i));
+  }
+  function play(){
+    reset(false);
+    bar.style.animation='none'; void bar.offsetWidth; bar.style.animation='';
+    show(0);
+    starts.forEach((t,i)=>{ if(i>0) timers.push(setTimeout(()=>show(i), t*1000)); });
+    timers.push(setTimeout(()=>{ show(0); }, 40000));
+  }
+  function reset(clear=true){
+    timers.forEach(clearTimeout); timers=[];
+    if(clear){ show(0); }
+  }
+  document.getElementById('play').onclick = play;
+  document.getElementById('reset').onclick = ()=>{ reset(); bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=''; };
+  rows.forEach((r,i)=>r.addEventListener('click',()=>{ reset(); show(i); }));
+  show(0);
+</script>
+</body>
+</html>

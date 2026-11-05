@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Escenas v2 · Reel caídas · MAMKAM</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#000;width:720px;height:1280px;overflow:hidden;font-family:"Helvetica Neue",Arial,sans-serif;color:#14161a}
+  #stage{position:relative;width:720px;height:1280px;background:#000;overflow:hidden}
+  #cv{position:absolute;left:0;top:0;width:720px;height:1280px;display:none}
+  .scene{position:absolute;inset:0;display:none}
+  .abs{position:absolute}
+  .txt{position:absolute;left:50px;right:50px;text-align:center;font-weight:800;line-height:1.15;opacity:0}
+  .cap{font-size:46px}
+  .dk{color:#14161a}
+  .lt{color:#fff}
+  .sub{font-size:28px;font-weight:500;line-height:1.35}
+  .note{position:absolute;left:30px;right:30px;bottom:40px;text-align:center;font-size:19px;color:#4b505c;letter-spacing:.3px;opacity:0}
+  .lbl{position:absolute;font-size:23px;font-weight:800;line-height:1.15;opacity:0;white-space:nowrap;color:#14161a}
+  .lbl small{display:block;font-size:21px;font-weight:600;color:#3b4150}
+  .photo{position:absolute;inset:0;background:url(../img/obra-plaza.jpg) center/cover no-repeat;opacity:0}
+  .logo{position:absolute;left:50%;top:360px;transform:translateX(-50%);width:600px;opacity:0}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv" width="720" height="1280"></canvas>
+
+  <!-- ESCENA 1 · 0–3 s -->
+  <section class="scene" id="s1">
+    <div class="txt cap dk" id="s1t" style="top:110px">¿Qué hay debajo<br>de un juego?</div>
+  </section>
+
+  <!-- ESCENA 2 · 3–9 s -->
+  <section class="scene" id="s2">
+    <div class="txt cap dk" id="s2t" style="top:110px;font-size:44px">Sobre cemento,<br>cualquier caída duele.</div>
+    <div class="lbl" id="s2l" style="left:80px;top:628px;color:#3b4150">Cemento (radier)</div>
+  </section>
+
+  <!-- ESCENA 3 · 9–20 s -->
+  <section class="scene" id="s3">
+    <div class="txt cap dk" id="s3t" style="top:60px;font-size:40px">El caucho absorbe el impacto</div>
+    <div class="lbl" id="s3h" style="left:318px;top:380px;color:#b45309">Altura de caída</div>
+    <div class="lbl" id="s3l1" style="left:520px;top:474px">EPDM<small>1 cm</small></div>
+    <div class="lbl" id="s3l2" style="left:520px;top:540px">SBR negro<small>2–3 cm</small></div>
+    <div class="lbl" id="s3l3" style="left:520px;top:666px">Radier<small>~15 cm</small></div>
+    <div class="lbl" id="s3l4" style="left:520px;top:883px">Tierra</div>
+    <div class="note" id="s3n">Ilustrativo · gránulos ampliados · espesores referenciales [VERIFICAR]</div>
+  </section>
+
+  <!-- ESCENA 4 · 20–32 s -->
+  <section class="scene" id="s4" style="background:#000">
+    <div class="photo" id="photo"></div>
+    <div class="abs" style="left:0;right:0;bottom:0;height:320px;background:linear-gradient(transparent,#000 85%)"></div>
+    <div class="txt cap lt" id="s4t" style="top:960px;font-size:46px">Instalado<br>por MAMKAM</div>
+  </section>
+
+  <!-- ESCENA 5 · 32–38 s -->
+  <section class="scene" id="s5" style="background:#000">
+    <div class="txt cap lt" id="s5t" style="top:420px;font-size:50px">¿Tu plaza o colegio<br>tiene juegos?</div>
+    <div class="txt sub lt" id="s5s" style="top:700px;color:#d6d6e0">Cotiza tu caucho según la altura de caída.</div>
+  </section>
+
+  <!-- ESCENA 6 · 38–40 s -->
+  <section class="scene" id="s6" style="background:#000">
+    <img class="logo" id="logo" src="../img/logo-mamkam.jpg" alt="MAMKAM">
+    <div class="txt sub lt" id="s6t" style="top:820px;font-size:34px;font-weight:700">+56 9 4818 2630</div>
+  </section>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const clamp = x => Math.max(0, Math.min(1, x));
+  const ease = x => 1 - Math.pow(1 - clamp(x), 3);
+  const smooth = x => { x=clamp(x); return x*x*(3-2*x); };
+  const lerp = (a,b,m) => a + (b-a)*m;
+  const set = (el, p) => { if(el) Object.assign(el.style, p); };
+
+  const cv = $('cv'), ctx = cv.getContext('2d');
+
+  // ---------- Geometría de capas (1 cm = 12 px) ----------
+  const Y0 = 560;                 // superficie
+  const Y_EPDM = Y0 + 12;         //  1 cm de EPDM
+  const Y_SBR  = Y_EPDM + 30;     //  2,5 cm de SBR negro
+  const Y_RAD  = Y_SBR + 180;     // 15 cm de radier
+  const Y_SOIL = 1010;            // fondo de la tierra dibujada
+
+  // ---------- Aleatorio determinista ----------
+  let seed = 20240; const rnd = () => (seed = (seed*9301+49297)%233280)/233280;
+  const shade = (hex, f) => {
+    const n=parseInt(hex.slice(1),16); let r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+    r=Math.min(255,Math.round(r*f)); g=Math.min(255,Math.round(g*f)); b=Math.min(255,Math.round(b*f));
+    return `rgb(${r},${g},${b})`;
+  };
+  // Trozo anguloso y facetado, como los gránulos de las fotos de MAMKAM:
+  // 4 a 7 vértices, aristas filosas, forma a veces alargada.
+  const poly = r => {
+    const n = 4 + Math.floor(rnd()*4), v = [];
+    const sx = 0.7 + rnd()*0.9, sy = 0.55 + rnd()*0.55;
+    const a0 = rnd()*6.28;
+    for(let i=0;i<n;i++){
+      const a = a0 + 2*Math.PI*i/n + (rnd()-0.5)*0.9, rr = r*(0.55+rnd()*0.65);
+      v.push([Math.cos(a)*rr*sx, Math.sin(a)*rr*sy]);
+    }
+    return v;
+  };
+  // Tamaño: muchos pequeños y algunos grandes
+  const sizeOf = (lo, hi) => lo + (hi-lo)*Math.pow(rnd(), 1.6);
+
+  // Zonas de color del EPDM (cada zona = un solo color, con leves variaciones de tono)
+  const ZONES = [ {to:200, c:'#fb8a1c'}, {to:440, c:'#2b7be4'}, {to:720, c:'#f7e11b'} ];  // naranjo, azul, amarillo
+  const zoneOf = x => (ZONES.find(z => x < z.to) || ZONES[2]).c;
+
+  const epdm = [], sbr = [];
+  for(let i=0;i<560;i++){
+    const x = rnd()*720, y = Y0 + 2 + rnd()*(Y_EPDM - Y0 - 3), r = sizeOf(2.6, 5.6);
+    const base = zoneOf(x);
+    epdm.push({x, y, v: poly(r), rot: rnd()*6.28, col: shade(base, 0.86+rnd()*0.24), edge: shade(base, 0.5)});
+  }
+  for(let i=0;i<820;i++){
+    const x = rnd()*720, y = Y_EPDM + 1 + rnd()*(Y_SBR - Y_EPDM - 2), r = sizeOf(3.0, 6.8);
+    const g = 12 + Math.floor(rnd()*26);
+    sbr.push({x, y, v: poly(r), rot: rnd()*6.28, col: `rgb(${g},${g},${g+3})`, edge: 'rgb(0,0,0)'});
+  }
+  const soilSpecks = [], radSpecks = [];
+  for(let i=0;i<260;i++) soilSpecks.push({x:rnd()*720, y:Y_RAD+rnd()*(Y_SOIL-Y_RAD), r:1.5+rnd()*4, c: rnd()<0.5?'#5d4330':'#8a6a4b'});
+  for(let i=0;i<340;i++) radSpecks.push({x:rnd()*720, y:Y_SBR+rnd()*(Y_RAD-Y_SBR), r:1+rnd()*2.6, c: rnd()<0.5?'#a4a8af':'#d9dce1'});
+
+  // ---------- Deformación elástica ----------
+  const SIG = 34;
+  const dent = (x, cx, depth) => depth * Math.exp(-((x-cx)*(x-cx))/(2*SIG*SIG));
+
+  function drawGrain(g, dx, dy){
+    ctx.save(); ctx.translate(g.x+dx, g.y+dy); ctx.rotate(g.rot);
+    ctx.lineJoin = 'miter';
+    ctx.beginPath(); g.v.forEach((p,i)=> i? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1])); ctx.closePath();
+    ctx.fillStyle = g.col; ctx.fill();
+    // caras: una clara (arriba-izquierda) y una oscura (abajo-derecha) para dar volumen mate
+    const n = g.v.length, h = Math.floor(n/2);
+    ctx.globalAlpha = 0.20; ctx.fillStyle = '#ffffff';
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(g.v[0][0],g.v[0][1]); ctx.lineTo(g.v[1][0],g.v[1][1]); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 0.22; ctx.fillStyle = '#000000';
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(g.v[h][0],g.v[h][1]); ctx.lineTo(g.v[(h+1)%n][0],g.v[(h+1)%n][1]); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = g.edge; ctx.lineWidth = 0.8;
+    ctx.beginPath(); g.v.forEach((p,i)=> i? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawWorld(P){
+    const {mode, x0, x1, cx, depth} = P;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(x0, 0, x1-x0, 1280); ctx.clip();
+
+    if(mode === 'cemento'){
+      // radier directo desde la superficie
+      ctx.fillStyle = '#c5c8cd'; ctx.fillRect(x0, Y0, x1-x0, 180);
+      for(let i=0;i<340;i++){ const s=radSpecks[i]; ctx.fillStyle=s.c; ctx.beginPath(); ctx.arc(s.x, Y0+((s.y-Y_SBR)/(Y_RAD-Y_SBR))*180, s.r,0,6.28); ctx.fill(); }
+      ctx.fillStyle = '#6b4f3a'; ctx.fillRect(x0, Y0+180, x1-x0, Y_SOIL-(Y0+180));
+      soilSpecks.forEach(s=>{ const yy = Y0+180 + ((s.y-Y_RAD)/(Y_SOIL-Y_RAD))*(Y_SOIL-(Y0+180)); ctx.fillStyle=s.c; ctx.beginPath(); ctx.arc(s.x,yy,s.r,0,6.28); ctx.fill(); });
+    } else {
+      // tierra
+      ctx.fillStyle = '#6b4f3a'; ctx.fillRect(x0, Y_RAD, x1-x0, Y_SOIL-Y_RAD);
+      soilSpecks.forEach(s=>{ ctx.fillStyle=s.c; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.28); ctx.fill(); });
+      // radier
+      ctx.fillStyle = '#c5c8cd'; ctx.fillRect(x0, Y_SBR, x1-x0, Y_RAD-Y_SBR);
+      radSpecks.forEach(s=>{ ctx.fillStyle=s.c; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.28); ctx.fill(); });
+
+      // cuerpo del SBR (negro) con borde superior e inferior deformados
+      const STEP = 4;
+      const edge = (yBase, k, flip) => {
+        const pts=[]; for(let x=x0; x<=x1; x+=STEP) pts.push([x, yBase + dent(x,cx,depth)*k]); return pts;
+      };
+      const eTop = edge(Y0, 1.0), eMid = edge(Y_EPDM, 0.8), eLow = edge(Y_SBR, 0.1);
+
+      // SBR: entre eMid y eLow
+      ctx.beginPath(); eMid.forEach((p,i)=> i? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1]));
+      for(let i=eLow.length-1;i>=0;i--) ctx.lineTo(eLow[i][0], eLow[i][1]); ctx.closePath();
+      ctx.fillStyle = '#08080a'; ctx.fill();
+      ctx.save(); ctx.clip();
+      sbr.forEach(g => {
+        const z = g.y - Y0, k = 0.8 - 0.7*clamp((z-12)/30);
+        drawGrain(g, 0, dent(g.x,cx,depth)*k);
+      });
+      ctx.restore();
+
+      // EPDM: entre eTop y eMid
+      ctx.beginPath(); eTop.forEach((p,i)=> i? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1]));
+      for(let i=eMid.length-1;i>=0;i--) ctx.lineTo(eMid[i][0], eMid[i][1]); ctx.closePath();
+      // cuerpo: color de la zona, oscurecido (aglutinante)
+      const grd = ctx.createLinearGradient(x0,0,x1,0);
+      ZONES.forEach((z,i)=>{ const a = (i? ZONES[i-1].to:0)/720, b = z.to/720; grd.addColorStop(clamp(a),shade(z.c,0.6)); grd.addColorStop(clamp(b-0.001),shade(z.c,0.6)); });
+      ctx.fillStyle = grd; ctx.fill();
+      epdm.forEach(g => {
+        const z = g.y - Y0, k = 1 - 0.2*clamp(z/12);
+        drawGrain(g, 0, dent(g.x,cx,depth)*k);
+      });
+    }
+    ctx.restore();
+  }
+
+  function drawBall(cx, bottom, alpha){
+    if(alpha<=0) return;
+    const R = 34, cy = bottom - R;
+    ctx.save(); ctx.globalAlpha = alpha;
+    const g = ctx.createRadialGradient(cx-R*0.35, cy-R*0.4, R*0.1, cx, cy, R);
+    g.addColorStop(0,'#6f86c9'); g.addColorStop(0.45,'#2a3b73'); g.addColorStop(1,'#12193a');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx,cy,R,0,6.28); ctx.fill();
+    ctx.restore();
+  }
+
+  // Trayectorias de la pelota (valores en px, 'bottom' = base de la pelota en y)
+  const FALL_START_BOTTOM = 328;
+  function fallBottom(t, t0, tc){            // caída libre aproximada (parábola)
+    const k = clamp((t-t0)/(tc-t0));
+    return FALL_START_BOTTOM + (Y0 - FALL_START_BOTTOM)*k*k;
+  }
+  // Rebote duro (cemento)
+  function hardBounce(r){
+    if(r<0) return {rebound:0, depth:0};
+    if(r<0.45) return {rebound:60*Math.sin(Math.PI*r/0.45), depth:0};
+    if(r<0.7)  return {rebound:14*Math.sin(Math.PI*(r-0.45)/0.25), depth:0};
+    return {rebound:0, depth:0};
+  }
+  // Rebote amortiguado (caucho): la superficie se hunde como globo y devuelve poco
+  const D = 14;
+  function softBounce(r){
+    if(r<0) return {rebound:0, depth:0};
+    if(r<0.25) return {rebound:0, depth:D*Math.sin(Math.PI/2*r/0.25)};
+    if(r<0.55) return {rebound:0, depth:D*Math.cos(Math.PI/2*(r-0.25)/0.30)};
+    if(r<0.95) return {rebound:18*Math.sin(Math.PI*(r-0.55)/0.40), depth:0};
+    if(r<1.15) return {rebound:0, depth:4*Math.sin(Math.PI*(r-0.95)/0.20)};
+    return {rebound:0, depth:0};
+  }
+
+  function drawBG(){
+    const g = ctx.createLinearGradient(0,0,0,1280);
+    g.addColorStop(0,'#f4f6f9'); g.addColorStop(1,'#dde2e9');
+    ctx.fillStyle = g; ctx.fillRect(0,0,720,1280);
+  }
+
+  function render(t){
+    const active = t<3?'s1':t<9?'s2':t<20?'s3':t<32?'s4':t<38?'s5':'s6';
+    ['s1','s2','s3','s4','s5','s6'].forEach(id => $(id).style.display = (id===active)?'block':'none');
+    const profile = (active==='s1'||active==='s2'||active==='s3');
+    cv.style.display = profile ? 'block' : 'none';
+
+    if(profile){
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.clearRect(0,0,720,1280);
+      drawBG();
+
+      if(active==='s1'){
+        const u=t, tc=1.2, r=u-tc;
+        const b = r<0 ? fallBottom(u,0.2,tc) : (()=>{ const s=softBounce(r); return Y0 + s.depth - s.rebound; })();
+        const depth = r<0 ? 0 : softBounce(r).depth;
+        drawWorld({mode:'caucho', x0:60, x1:660, cx:360, depth});
+        drawBall(360, b, ease((u-0.2)/0.2));
+        set($('s1t'),{opacity:ease((u-0.1)/0.4)});
+      }
+
+      if(active==='s2'){
+        const u=t-3, tc=1.2, r=u-tc;
+        const b = r<0 ? fallBottom(u,0.3,tc) : Y0 - hardBounce(r).rebound;
+        drawWorld({mode:'cemento', x0:60, x1:660, cx:360, depth:0});
+        drawBall(360, b, ease((u-0.3)/0.2));
+        set($('s2t'),{opacity:ease((u-0.1)/0.4)});
+        set($('s2l'),{opacity:ease((u-1.8)/0.4)});
+      }
+
+      if(active==='s3'){
+        const u=t-9, cx=270, tc=1.8, r=u-tc;
+        const f = 1 - clamp((u-6.3)/0.4);                     // textos se retiran antes del viaje
+        const b = r<0 ? fallBottom(u,0.6,tc) : (()=>{ const s=softBounce(r); return Y0 + s.depth - s.rebound; })();
+        const depth = r<0 ? 0 : softBounce(r).depth;
+
+        // Efecto "Atraviesa la escena": la cámara se sumerge por las capas
+        const m = ease((u-6.5)/1.5);
+        const sc = 1 + 3.5*m;
+        const fy = Y0 + 140*smooth((u-7.5)/3.0);
+        const Sx = lerp(cx,360,m), Sy = lerp(fy,640,m);
+        ctx.save();
+        ctx.translate(Sx,Sy); ctx.scale(sc,sc); ctx.translate(-cx,-fy);
+        drawWorld({mode:'caucho', x0:40, x1:500, cx, depth});
+
+        // cota de altura de caída
+        const aDim = ease((u-1.0)/0.5)*f;
+        if(aDim>0){
+          ctx.save(); ctx.globalAlpha = aDim; ctx.strokeStyle='#b45309'; ctx.fillStyle='#b45309'; ctx.lineWidth=3;
+          const lx = cx-60;
+          ctx.beginPath(); ctx.moveTo(lx,FALL_START_BOTTOM-68); ctx.lineTo(lx,Y0); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(lx-10,FALL_START_BOTTOM-68); ctx.lineTo(lx+10,FALL_START_BOTTOM-68); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(lx-10,Y0); ctx.lineTo(lx+10,Y0); ctx.stroke();
+          ctx.restore();
+        }
+        // guías de capas (hacia las etiquetas)
+        const guides = [ [566,500,'s3l1',2.8], [587,566,'s3l2',3.6], [692,692,'s3l3',4.4], [896,896,'s3l4',5.2] ];
+        guides.forEach(([py,ly,id,ts])=>{
+          const a = ease((u-ts)/0.5)*f;
+          if(a>0){ ctx.save(); ctx.globalAlpha=a; ctx.strokeStyle='#3b4150'; ctx.lineWidth=2;
+            ctx.beginPath(); ctx.moveTo(494,py); ctx.lineTo(514,ly); ctx.stroke();
+            ctx.fillStyle='#3b4150'; ctx.beginPath(); ctx.arc(494,py,3.5,0,6.28); ctx.fill(); ctx.restore(); }
+        });
+        drawBall(cx, b, ease((u-0.4)/0.3)*f);
+        ctx.restore();
+
+        set($('s3t'),{opacity:ease(u/0.5)*f});
+        set($('s3h'),{opacity:ease((u-1.2)/0.5)*f});
+        set($('s3l1'),{opacity:ease((u-2.8)/0.5)*f});
+        set($('s3l2'),{opacity:ease((u-3.6)/0.5)*f});
+        set($('s3l3'),{opacity:ease((u-4.4)/0.5)*f});
+        set($('s3l4'),{opacity:ease((u-5.2)/0.5)*f});
+        set($('s3n'),{opacity:ease((u-5.5)/0.6)});
+      }
+    }
+
+    if(active==='s4'){
+      const u=t-20;
+      set($('photo'),{opacity:ease(u/0.5), transform:`scale(${1+0.05*(u/12)})`});
+      set($('s4t'),{opacity:ease((u-1.0)/0.6)});
+    }
+    if(active==='s5'){
+      const u=t-32;
+      set($('s5t'),{opacity:ease(u/0.5)});
+      set($('s5s'),{opacity:ease((u-1.2)/0.5)});
+    }
+    if(active==='s6'){
+      const u=t-38;
+      set($('logo'),{opacity:ease(u/0.6)});
+      set($('s6t'),{opacity:ease((u-0.8)/0.5)});
+    }
+  }
+  window.render = render;
+  render(0);
+</script>
+</body>
+</html>
