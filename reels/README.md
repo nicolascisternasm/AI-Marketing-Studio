@@ -14,3 +14,12 @@ Los enlaces "raw" son los que se usan en Metricool para programar (el repositori
 | De tierra a pasto en 5 pasos (fotos reales, Macul) | Pasto sintético | 52,5 s | https://raw.githubusercontent.com/nicolascisternasm/AI-Marketing-Studio/main/reels/2026-11/2026-11-06_pasto-sintetico_proceso-5-pasos.mp4 |
 
 Los proyectos editables (HyperFrames) de cada reel están en el repositorio MAMKAM, carpeta `previz/`.
+
+### Historias (máx. 60 s)
+
+Instagram solo acepta historias de hasta 60 s. Los reels más largos tienen aquí una versión acelerada a 59 s (≈5 % más rápida) solo para la historia.
+
+| Historia | Duración | Enlace directo |
+|---|---|---|
+| Caídas (historia) | 59 s | https://raw.githubusercontent.com/nicolascisternasm/AI-Marketing-Studio/main/reels/2026-11/historias/2026-11-06_caucho-continuo_caidas_historia.mp4 |
+| Toxicidad (historia) | 59 s | https://raw.githubusercontent.com/nicolascisternasm/AI-Marketing-Studio/main/reels/2026-11/historias/2026-11-06_caucho-continuo_toxicidad_historia.mp4 |
